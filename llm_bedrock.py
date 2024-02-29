@@ -43,20 +43,20 @@ def pinecone_db():
     index = pc.Index(index_pinecone)
     return index
 
-def retrieval_answer(query, selected_years):
+def retrieval_answer(query):
     """
     Retrieves answers and sources based on the query, selected years, and document types.
     """
     # Construct filter conditions for the query
-    filter_conditions = create_filter_conditions(selected_years)
+    
     index = pinecone_db()
     vectorstore = Pinecone(index, embeddings, "text")
-    retriever = vectorstore.as_retriever(search_kwargs={'filter': filter_conditions, 'k': 20})
+    retriever = vectorstore.as_retriever()
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
     # Include filter conditions in the prompt for enhanced context
     # Enhance the query with filter details
-    filter_details = f"Applying filters: Years between {selected_years}"
-    response = retrieval_chain.invoke({"input": f"{query}", "filter": f"{filter_details}", "tokens": f"{max_tokens}"})
+    #filter_details = f"Applying filters: Years between {selected_years}"
+    response = retrieval_chain.invoke({"input": f"{query}"})
     sources = render_search_results(response['context'])
     # Update chat history in DynamoDB
     chat_history_DB.add_user_message(query)
@@ -106,10 +106,7 @@ def extract_answer_sources(data):
 # Define the prompt template for user queries
 PROMPT_TEMPLATE = """
     Answer the following questions as best you can but speaking as assistant expert in summarization and gathering ideas.
-    You have access to a vector database where are storage UnidosUS documents, and the user applied the following filters:
-
-    {filter}
-
+    You have access to a vector database where are storage UnidosUS documents
     Use the following format:
 
     Query:
@@ -131,7 +128,6 @@ PROMPT_TEMPLATE = """
 
     Do not make up any answer!
     JUST RESPONSE THE ANSWER!, DO NOT INCLUDE query,thought,action, etc.....
-    Answer the user's query as best as you can keeping in mind the max number of tokens is {tokens}
     User's Request: {input} 
     """
 
