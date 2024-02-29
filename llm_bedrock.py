@@ -29,7 +29,7 @@ TEMPERATURE = 0.7
 session = boto3.Session(region_name='us-east-1')
 bedrock_client = boto3.client("bedrock-runtime", region_name=BEDROCK_REGION)
 chat_history_DB = DynamoDBChatMessageHistory(table_name="SessionTable", session_id="1", boto3_session=session)
-index_pinecone = 'unidosus-policy-test'
+index_pinecone = 'uus-statements-releases'
 model_id = "anthropic.claude-v2:1"
 model_kwargs = {"max_tokens_to_sample": max_tokens, "temperature": TEMPERATURE}
 embeddings = BedrockEmbeddings(client=bedrock_client, region_name=BEDROCK_REGION)
