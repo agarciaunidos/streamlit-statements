@@ -69,7 +69,8 @@ def create_filter_conditions(selected_years=None):
     """
     filter_conditions = {}
     if selected_years and "ALL" not in selected_years:
-        filter_conditions["year"] = {"$in": selected_years}
+        # Ensure year values are treated as strings
+        filter_conditions["year"] = {"$in": [str(year) for year in selected_years]}
     return filter_conditions
 
 
