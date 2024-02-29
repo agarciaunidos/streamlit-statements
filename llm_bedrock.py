@@ -28,7 +28,7 @@ TEMPERATURE = 0.7
 # Initialize clients and services
 session = boto3.Session(region_name='us-east-1')
 bedrock_client = boto3.client("bedrock-runtime", region_name=BEDROCK_REGION)
-chat_history_DB = DynamoDBChatMessageHistory(table_name="SessionTable", session_id="1", boto3_session=session)
+chat_history_DB = DynamoDBChatMessageHistory(table_name="SessionTable", session_id="statements", boto3_session=session)
 index_pinecone = 'uus-statements-releases'
 model_id = "anthropic.claude-v2:1"
 model_kwargs = {"max_tokens_to_sample": max_tokens, "temperature": TEMPERATURE}
