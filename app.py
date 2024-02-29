@@ -22,7 +22,7 @@ YEAR = ['ALL', '2024','2023', '2022']
 
 def run():
     # Display the application title and caption
-    st.title("Policy Document Assistant")
+    st.title("Policy Statements Document Assistant")
     st.caption("A Digital Services Project")
 
     # Initialize session state for chat messages if not already present
