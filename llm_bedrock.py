@@ -65,12 +65,23 @@ def retrieval_answer(query,selected_years):
 
 def create_filter_conditions(selected_years=None):
     """
-    Creates filter conditions for document retrieval based on selected years and types.
+    Creates filter conditions for document retrieval based on selected years with specific cases.
     """
     filter_conditions = {}
-    if selected_years and "ALL" not in selected_years:
-        # Ensure year values are treated as strings
-        filter_conditions["year"] = {"$in": [str(year) for year in selected_years]}
+
+    # Case when 'ALL' is selected or no years are selected
+    if not selected_years or "ALL" in selected_years:
+        return filter_conditions
+
+    # If only one year is selected, use "$eq"
+    if len(selected_years) == 1:
+        year = int(selected_years[0])  # Convert the year to an integer
+        filter_conditions["year"] = {"$eq": year}
+    else:
+        # Multiple years selected, use "$in" and convert each year to integer
+        years_int = [int(year) for year in selected_years]
+        filter_conditions["year"] = {"$in": years_int}
+
     return filter_conditions
 
 
