@@ -82,14 +82,14 @@ def render_search_results(documents):
         # Obtenemos los metadatos básicos
         name = doc.metadata.get('name', '')
         source = doc.metadata.get('source', '').replace('s3://', 'https://s3.amazonaws.com/')
-        doc_type = doc.metadata.get('type', '')
+        #doc_type = doc.metadata.get('type', '')
         year = doc.metadata.get('year', '')
 
         if year:
             year = str(int(year))
 
-        metadata_list.append({"Title": name, "Source": source, "Type": doc_type, "Year": year})
-    df = pd.DataFrame(metadata_list).drop_duplicates(subset=['Title'])
+        metadata_list.append({"name": name, "Source": source, "Year": year})
+    df = pd.DataFrame(metadata_list).drop_duplicates(subset=['name'])
     return df
 
 def extract_answer_sources(data):
