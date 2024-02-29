@@ -35,8 +35,8 @@ def run():
     # Sidebar for filtering documents by time period and type
     with st.sidebar:
         st.image('https://unidosus.org/wp-content/themes/unidos/images/unidosus-logo-color-2x.png', use_column_width=True)
-        st.title("Filter Data")
-        selected_years = st.multiselect('Select Type:', YEAR)
+        st.title("Filter")
+        selected_years = st.multiselect('Select Year:', YEAR)
 
     # Input field for user queries
     prompt = st.chat_input()
