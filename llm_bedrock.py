@@ -43,19 +43,18 @@ def pinecone_db():
     index = pc.Index(index_pinecone)
     return index
 
-def retrieval_answer(query):
+def retrieval_answer(query,selected_years):
     """
     Retrieves answers and sources based on the query, selected years, and document types.
     """
     # Construct filter conditions for the query
-    
+    filter_conditions = create_filter_conditions(selected_years)
     index = pinecone_db()
     vectorstore = Pinecone(index, embeddings, "text")
-    retriever = vectorstore.as_retriever()
+    retriever = vectorstore.as_retriever(search_kwargs={'filter': filter_conditions, 'k': 50})
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
     # Include filter conditions in the prompt for enhanced context
     # Enhance the query with filter details
-    #filter_details = f"Applying filters: Years between {selected_years}"
     response = retrieval_chain.invoke({"input": f"{query}"})
     sources = render_search_results(response['context'])
     # Update chat history in DynamoDB
