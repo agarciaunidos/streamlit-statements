@@ -80,7 +80,7 @@ def render_search_results(documents):
     metadata_list = []
     for doc in documents:
         # Obtenemos los metadatos básicos
-        title = doc.metadata.get('title', '')
+        name = doc.metadata.get('name', '')
         source = doc.metadata.get('source', '').replace('s3://', 'https://s3.amazonaws.com/')
         doc_type = doc.metadata.get('type', '')
         year = doc.metadata.get('year', '')
@@ -88,7 +88,7 @@ def render_search_results(documents):
         if year:
             year = str(int(year))
 
-        metadata_list.append({"Title": title, "Source": source, "Type": doc_type, "Year": year})
+        metadata_list.append({"Title": name, "Source": source, "Type": doc_type, "Year": year})
     df = pd.DataFrame(metadata_list).drop_duplicates(subset=['Title'])
     return df
 
