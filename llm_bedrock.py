@@ -51,7 +51,7 @@ def retrieval_answer(query,selected_years):
     filter_conditions = create_filter_conditions(selected_years)
     index = pinecone_db()
     vectorstore = Pinecone(index, embeddings, "text")
-    retriever = vectorstore.as_retriever(search_kwargs={'filter': filter_conditions, 'k': 50})
+    retriever = vectorstore.as_retriever(search_kwargs={'filter': filter_conditions, 'k': 200})
     retrieval_chain = create_retrieval_chain(retriever, document_chain)
     # Include filter conditions in the prompt for enhanced context
     # Enhance the query with filter details
