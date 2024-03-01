@@ -18,7 +18,7 @@ from llm_bedrock import retrieval_answer
 
 # Constants for date range and document options
 
-YEAR = ['ALL', '2024','2023', '2022']
+YEAR = ['ALL', '2024','2023', '2022','2021']
 
 def run():
     # Display the application title and caption
